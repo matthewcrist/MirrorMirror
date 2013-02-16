@@ -16,6 +16,3 @@ xcuserdata
 # svn & cvs
 .svn
 CVS
-
-# private keys
-creds.php
