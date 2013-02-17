@@ -2,19 +2,18 @@
 require_once 'creds.php';
 
 if($_GET['key'] == $id['key']) {
-	upload();
+	upload($id['S3']);
 } else{
 	echo json_encode(array('error' => true));
 }
 
-function upload() {
+function upload($id) {
 	// include the API
 	if (!class_exists('S3'))require_once('S3.php');
 
 	//AWS access info
-	require 'creds.php';
-	if (!defined('awsAccessKey')) define('awsAccessKey', $id['S3']['access']);
-	if (!defined('awsSecretKey')) define('awsSecretKey', $id['S3']['secret']);
+	if (!defined('awsAccessKey')) define('awsAccessKey', $id['access']);
+	if (!defined('awsSecretKey')) define('awsSecretKey', $id['secret']);
 	
 	//instantiate the class
 	$s3 = new S3(awsAccessKey, awsSecretKey);
@@ -40,8 +39,8 @@ function upload() {
 			$uploadFilename = $now.$dotwhat;
 
 			$response;
-			if ($s3->putObjectFile($localfile, $id['S3']['bucket'], $uploadFilename, S3::ACL_PUBLIC_READ)) {
-				$response = "<mediaurl>https://s3.amazonaws.com/".$id['S3']['bucket']."/".$uploadFilename."</mediaurl>";
+			if ($s3->putObjectFile($localfile, $id['bucket'], $uploadFilename, S3::ACL_PUBLIC_READ)) {
+				$response = "<mediaurl>https://s3.amazonaws.com/".$id['bucket']."/".$uploadFilename."</mediaurl>";
 			}else{
 				$response = json_encode(array(error => true));
 			}
