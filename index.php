@@ -20,27 +20,27 @@ function upload($id) {
 
 	// store image information from Tweetbot
 	$localfile = $_FILES['media']['tmp_name'];
-	$filename = $_FILES['media']['name'];
+	// $filename = $_FILES['media']['name'];
 
 	// Image filetype check source:
 	// http://designshack.net/articles/php-articles/smart-file-type-detection-using-php/
-	$imginfo_array = getimagesize($localfile);
+	$imginfo = getimagesize($localfile);
 
-	if ($imginfo_array !== false) {
-	    $mime_type = $imginfo_array['mime'];
-	    $mime_array = array("video/quicktime", "image/png", "image/jpeg", "image/gif", "image/bmp");
-	    if (in_array($mime_type , $mime_array)) { 
+	if ($imginfo !== false) {
+	    $mimetype = $imginfo['mime'];
+	    $allowedmimes = array("video/quicktime", "image/png", "image/jpeg", "image/gif", "image/bmp");
+	    if (in_array($mimetype, $allowedmimes)) { 
 			
 			$now = time();
 			$dotwhat = ".png";
-			if ($mime_type == "video/quicktime") {
+			if ($mimetype == "video/quicktime") {
 				$dotwhat = ".mov";
 			}
-			$uploadFilename = $now.$dotwhat;
+			$uploadname = $now.$dotwhat;
 
 			$response;
-			if ($s3->putObjectFile($localfile, $id['bucket'], $uploadFilename, S3::ACL_PUBLIC_READ)) {
-				$response = "<mediaurl>https://s3.amazonaws.com/".$id['bucket']."/".$uploadFilename."</mediaurl>";
+			if ($s3->putObjectFile($localfile, $id['bucket'], $uploadname, S3::ACL_PUBLIC_READ)) {
+				$response = "<mediaurl>https://s3.amazonaws.com/".$id['bucket']."/".$uploadname."</mediaurl>";
 			}else{
 				$response = json_encode(array(error => true));
 			}
