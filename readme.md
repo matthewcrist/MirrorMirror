@@ -5,6 +5,7 @@ Mirror Mirror is a self-hosted image uploading platform that complies with the [
 ## Yellow Brick Roadmap
 
 1. Keep a local database of uploaded media and their respective view counts.
+2. Add an install script to reduce effort required to install Mirror Mirror onto a server.
 
 ## Fade to: Black. Roll Credits.
 
