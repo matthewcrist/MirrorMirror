@@ -2,9 +2,5 @@
 	RewriteEngine	on
 	RewriteCond		%{REQUEST_FILENAME}		!-d
 	RewriteCond		%{REQUEST_FILENAME}		!-f
-	RewriteRule		(.*) index.php?key=$1	[QSA,L]
-
-	RewriteCond %{HTTP:Accept-Encoding} gzip 
-	RewriteCond %{REQUEST_FILENAME}.gz -f 
-	RewriteRule ^(.*)$ $1.gz [L]
+	RewriteRule		(.*) index.php?short=$1	[QSA,L]
 </IfModule>
