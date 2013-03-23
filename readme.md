@@ -2,7 +2,7 @@
 
 Mirror Mirror is a self-hosted image uploading platform that complies with the [Tweetbot Custom Media Upload specification](http://tapbots.net/tweetbot/custom_media/). Mirror Mirror passes the actual media itself to [Amazon S3](http://aws.amazon.com/s3/). Soon, Mirror Mirror will also retain a local database of uploaded media along with respective view counts.
 
-To use, after setting up Mirror Mirror on your server, simply point your Tweetbot Custom Mekey=[the random alphanumeric key you set in credia Upload specification complaint image uploading client to `[wherever you uploaded Mirror Mirror]/?ds.php]` (e.g. `http://m2.z17.me/?key=5thhg7dk90`).
+To use, after setting up Mirror Mirror on your server, simply point your Tweetbot Custom Media Upload specification–complaint image-uploading client to `[wherever you uploaded Mirror Mirror]/?key=[the random alphanumeric key you set in creds.php]` (e.g. `http://m2.z17.me/?key=5thhg7dk90`).
 
 ## Yellow Brick Roadmap
 Completed tasks are marked with the tag `@done`.
