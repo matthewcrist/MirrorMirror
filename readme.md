@@ -3,9 +3,12 @@
 Mirror Mirror is a self-hosted image uploading platform that complies with the [Tweetbot Custom Media Upload specification](http://tapbots.net/tweetbot/custom_media/). Mirror Mirror passes the actual media itself to [Amazon S3](http://aws.amazon.com/s3/). Soon, Mirror Mirror will also retain a local database of uploaded media along with respective view counts.
 
 ## Yellow Brick Roadmap
+Completed tasks are marked with the tag `@done`.
 
-1. Keep a local database of uploaded media and their respective view counts.
-2. Add an install script to reduce effort required to install Mirror Mirror onto a server.
+1. Keep a local database of uploaded media and their respective view counts. @done
+2. Improve handling of view requests from applications (e.g Tweetbot) vs browsers (e.g. Chrome).
+3. Track views from applications and browsers seperately.
+4. Add an install script to reduce effort required to install Mirror Mirror onto a server.
 
 ## Fade to: Black. Roll Credits.
 
