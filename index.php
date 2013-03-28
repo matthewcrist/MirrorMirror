@@ -106,7 +106,7 @@ function checkValidity($short) {
 	}
 }
 
-function imageRetrieve($short, $dbinfo) {
+function imageRetrieve($short, $dbinfo, $isBrowser) {
 	$con = mysql_connect($dbinfo['host'], $dbinfo['user'], $dbinfo['pass']) or die(mysql_error());
 	$db = mysql_select_db($dbinfo['db'], $con) or die(mysql_error());
 
@@ -117,12 +117,24 @@ function imageRetrieve($short, $dbinfo) {
 	if($rownum == 1) {
 		$assoc = mysql_fetch_assoc($search);
 		$id = $assoc['id'];
-		$views = $assoc['views'];
-		$views++;
-		$updatequery = "UPDATE  `images` SET  `views` =  $views WHERE `id` = $id";
+		
+		if($isBrowser == 0) {
+			$cviews = $assoc['cviews'];
+			$cviews++;
+			$updatequery = "UPDATE  `images` SET  `cviews` =  $cviews WHERE `id` = $id";
+		}elseif($isBrowser == 1) {
+			$views = $assoc['views'];
+			$views++;
+			$updatequery = "UPDATE  `images` SET  `views` =  $views WHERE `id` = $id";
+		}else{
+			echo "Uhh. IDK what happened here. That's weird. Kay.";
+			exit;
+		}
+
 		mysql_query($updatequery, $con);
 
-		return $assoc['url'];
+		return $assoc;
+
 	}elseif($rownum == 0) {
 		echo "Image does not exist.";
 		exit;
@@ -132,11 +144,32 @@ function imageRetrieve($short, $dbinfo) {
 	}
 }
 
-function displayImage($short, $dbinfo) {
-	$url = imageRetrieve($short, $dbinfo);
+function checkBrowser() {
+	$a = apache_request_headers();
+	if(strpos($a['Accept'],"text/html") === false) {
+		return 0;
+	}else{
+		return 1;
+	}
+}
 
-	header('Content-Type: image/png');
-	readfile($url);
+function displayImage($short, $dbinfo) {
+	$isBrowser = checkBrowser();
+	$info = imageRetrieve($short, $dbinfo, $isBrowser);
+	
+	$html = '<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" /><title>'.$info['date'].'</title></head><body><div id="wrapper"><img src="'.$info['url'].'"/></div></body></html>';
+
+	if($isBrowser == 0) {
+		header('Location: '.$url);
+		exit;
+	}elseif($isBrowser == 1) {
+		echo $html;
+		exit;
+	}else {
+		echo "Uhh. IDK what happened here. That's weird. Kay.";
+		exit;
+	}
 }
 
 ?>
