@@ -13,6 +13,6 @@
                     'pass' => 'database password here'
                  ),
 
-                'base' => 'the full URL of the root diectory'
+                'base' => 'the full URL of the root diectory with a trailing slash'
             );
 ?>
