@@ -6,9 +6,8 @@ To use, after setting up Mirror Mirror on your server, simply point your Tweetbo
 
 ## Yellow Brick Roadmap
 
-1. Track/log errors better.
-2. Add an install script to reduce effort required to install Mirror Mirror onto a server.
-3. Look into displaying videos on a custom page as well instead of linking directly to the file.
+1. Add an install script to reduce effort required to install Mirror Mirror onto a server.
+2. Look into displaying videos on a custom page as well instead of linking directly to the file.
 
 ### Completed Roadmap Items
 
@@ -16,6 +15,8 @@ To use, after setting up Mirror Mirror on your server, simply point your Tweetbo
 2. Improve handling of view requests from applications (e.g Tweetbot) vs browsers (e.g. Chrome).
 3. Track views from applications and browsers separately.
 4. Style the image viewing page.
+5. Displays errors better.
+6. Degrades gracefully when there is no database space left.
 
 ## Fade to: Black. Roll Credits.
 
