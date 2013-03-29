@@ -11,6 +11,8 @@
                     'host' => 'database host here',
                     'user' => 'database username here',
                     'pass' => 'database password here'
-                 )
+                 ),
+
+                'base' => 'the full URL of the root diectory'
             );
 ?>
