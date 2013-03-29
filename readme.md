@@ -1,12 +1,3 @@
-# Fairest of Them All
+# The Black Sheep Branch
 
-Mirror Mirror is a self-hosted image uploading platform that complies with the [Tweetbot Custom Media Upload specification](http://tapbots.net/tweetbot/custom_media/). Mirror Mirror passes the actual media itself to [Amazon S3](http://aws.amazon.com/s3/). Soon, Mirror Mirror will also retain a local database of uploaded media along with respective view counts.
-
-## Yellow Brick Roadmap
-
-1. Keep a local database of uploaded media and their respective view counts.
-2. Add an install script to reduce effort required to install Mirror Mirror onto a server.
-
-## Fade to: Black. Roll Credits.
-
-Mirror Mirror’s code was originally based on [this](http://net.tutsplus.com/tutorials/php/how-to-use-amazon-s3-php-to-dynamically-store-and-manage-files-with-ease/) and [this](http://www.macstories.net/news/tweetbot-for-mac-review/#customuploads) and uses Donovan Schönknecht’s [amazon-s3-php-class](https://github.com/tpyo/amazon-s3-php-class).
+This branch is simply to preserve Mirror Mirror before it displayed images itself and stored information in a database. While there may be an occasional bug fix in this branch, there will never be any new features or major updates.
