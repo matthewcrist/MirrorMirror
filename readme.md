@@ -14,7 +14,7 @@ To use, after setting up Mirror Mirror on your server, simply point your Tweetbo
 1. Keep a local database of uploaded media and their respective view counts.
 2. Improve handling of view requests from applications (e.g Tweetbot) vs browsers (e.g. Chrome).
 3. Track views from applications and browsers separately.
-4.Style the image viewing page.
+4. Style the image viewing page.
 
 ## Fade to: Black. Roll Credits.
 
