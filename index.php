@@ -6,7 +6,7 @@ if($_GET['key'] && $_GET['key'] == $id['key']) {
 }elseif(isset($_GET['short'])) {
 	get($_GET['short'], $id['DB']);
 }else {
-	echo json_encode(array('error' => true));
+	exit("Nothing requested. Internal-use error code: 9."); #e9
 }
 
 function up($id, $dbinfo, $baseURL) {
@@ -62,14 +62,45 @@ function sendToS3($id) {
 				return array('url' => "https://s3.amazonaws.com/".$id['bucket']."/".$uploadname,
 					'isMov' => $isMov);
 			}else{
-				echo json_encode(array(error => true));
-				exit;
+				exit("Image was not uploaded. Internal-use error code: 1."); #e1
 			}
 	    }
 	}
 	else {
-	    echo "This is not a valid image file.";
-	    exit;
+	    exit("This is not a valid image file. Internal-use error code: 2."); #e2
+	}
+}
+
+function randNum() {
+	return substr(md5(time()), $rand, 5);
+}
+
+function generateShortCode($dbinfo) {
+	$con = mysql_connect($dbinfo['host'], $dbinfo['user'], $dbinfo['pass']) or die(mysql_error());
+	$db = mysql_select_db($dbinfo['db'], $con) or die(mysql_error());
+
+	$short;
+	$okay = false;
+	$i = 0;
+
+	while(!$okay && $i < 100) {
+		$short = randNum();
+
+		$query  = "SELECT * FROM `images` WHERE `short` = '$short'";
+		$search = mysql_query($query, $con);
+		$rownum = mysql_num_rows($search);
+
+		if($rownum == 0) {
+			$okay = true;
+		}else {
+			$i++;
+		}
+	}
+
+	if($okay) {
+		return $short;
+	}else {
+		return "No free short URL codes. E8"; #e8
 	}
 }
 
@@ -79,17 +110,24 @@ function addToDB($dbinfo, $baseURL, $sentInfo) {
 	$con = mysql_connect($dbinfo['host'], $dbinfo['user'], $dbinfo['pass']) or die(mysql_error());
 	$db = mysql_select_db($dbinfo['db'], $con) or die(mysql_error());
 
-	$rand = rand(0, 27);
-	$short = substr(md5(time()), $rand, 5);
+	$short = generateShortCode($dbinfo);
 
-	$query = "INSERT INTO `images` (`url`, `short`) VALUES ('$S3url', '$short');";
-	mysql_query($query, $con);
+	if($short != "No free short URL codes. E8" && strlen($short) == 5) {
+		$query = "INSERT INTO `images` (`url`, `short`) VALUES ('$S3url', '$short');";
+		mysql_query($query, $con);
 
-	$returnURL;
-	if($sentInfo['isMov'] == 1) {
+		$returnURL;
+		if($sentInfo['isMov'] == 1) {
+			$returnURL = $S3url;
+		}else {
+			$returnURL = $baseURL.$short.".png";
+		}
+
+	}elseif($short == "No free short URL codes. E8") {
 		$returnURL = $S3url;
+
 	}else {
-		$returnURL = $baseURL.$short.".png";
+		exit("Somehow the short URL mutated and is now sentient (or something like that). Internal-use error code: 10."); #e10
 	}
 
 	return "<mediaurl>".$returnURL."</mediaurl>";
@@ -101,8 +139,7 @@ function checkValidity($short) {
 	}elseif(strlen($short) == 9) {
 		return substr($short, 0, 5);
 	}else{
-		echo "Invalid URL.";
-		exit;
+		exit("Invalid URL. Internal-use error code: 3."); #e3
 	}
 }
 
@@ -127,8 +164,7 @@ function imageRetrieve($short, $dbinfo, $isBrowser) {
 			$views++;
 			$updatequery = "UPDATE  `images` SET  `views` =  $views WHERE `id` = $id";
 		}else{
-			echo "Uhh. IDK what happened here. That's weird. Kay.";
-			exit;
+			exit("Could not update view count because the browser type is invalid. Internal-use error code: 4."); #e4
 		}
 
 		mysql_query($updatequery, $con);
@@ -136,11 +172,9 @@ function imageRetrieve($short, $dbinfo, $isBrowser) {
 		return $assoc;
 
 	}elseif($rownum == 0) {
-		echo "Image does not exist.";
-		exit;
+		exit("Image does not exist. Internal-use error code: 5."); #e5
 	}else {
-		echo "Uhh. IDK what happened here. That's weird. Kay.";
-		exit;
+		exit("More than one image with this short URL exists? What? Internal-use error code: 6."); #e6
 	}
 }
 
@@ -167,8 +201,7 @@ function displayImage($short, $dbinfo) {
 		echo $html;
 		exit;
 	}else {
-		echo "Uhh. IDK what happened here. That's weird. Kay.";
-		exit;
+		exit("Could not display the image because the browser type is invalid. Internal-use error code: 7."); #e7
 	}
 }
 
