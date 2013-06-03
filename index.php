@@ -9,6 +9,21 @@ if($_GET['key'] && $_GET['key'] == $id['key']) {
 	exit("Nothing requested. Internal-use error code: 9."); #e9
 }
 
+if(!function_exists('getallheaders')) { 
+    function getallheaders() 
+    { 
+           $headers = ''; 
+       foreach ($_SERVER as $name => $value) 
+       { 
+           if (substr($name, 0, 5) == 'HTTP_') 
+           { 
+               $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value; 
+           } 
+       } 
+       return $headers; 
+    } 
+}
+
 function up($id, $dbinfo, $baseURL) {
 	$sentInfo  = sendToS3($id);
 	$publicURL = addToDB($dbinfo, $baseURL, $sentInfo);
@@ -41,12 +56,11 @@ function sendToS3($id) {
 
 	// Image filetype check source:
 	// http://designshack.net/articles/php-articles/smart-file-type-detection-using-php/
-	$imginfo = getimagesize($localfile);
+	$mimetype = image_type_to_mime_type(exif_imagetype($localfile));
 
-	if ($imginfo !== false) {
-	    $mimetype = $imginfo['mime'];
+	if (isset($mimetype)) {
 	    $allowedmimes = array("video/quicktime", "image/png", "image/jpeg", "image/gif", "image/bmp");
-	    if (in_array($mimetype, $allowedmimes)) { 
+	    if(in_array($mimetype, $allowedmimes)) { 
 			
 			$now = time();
 			$dotwhat = ".png";
