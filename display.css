@@ -3,7 +3,8 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 /* @end Reset */
 
 body {
-	background: #ffffff;
+	background: #fff;
+	height: 100%;
 }
 #wrapper {
 	width: auto;
@@ -21,7 +22,7 @@ body {
 		-o-box-sizing: border-box;
 		box-sizing: border-box;
 	}
-		img.out {
+		.out img {
 			position: fixed;
 			max-width: 100%;
 			max-height: 100%;
@@ -29,7 +30,7 @@ body {
 			cursor: -moz-zoom-in;
 			cursor: zoom-in;
 		}
-		img.in {
+		.in img {
 			position: relative;
 			cursor: -webkit-zoom-out;
 			cursor: -moz-zoom-out;
