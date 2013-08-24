@@ -206,7 +206,7 @@ function displayImage($short, $dbinfo) {
 	$info = imageRetrieve($short, $dbinfo, $isBrowser);
 	
 	$html = '<!DOCTYPE html>
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" /><title>'.$info['date'].'</title><link rel="stylesheet" type="text/css" href="display.css" /></head><body><div id="wrapper"><img class="out" src="'.$info['url'].'" onclick="var c = this.className, r;if(c == \'out\'){r=\'in\'}else{r=\'out\'}this.className = r" alt="'.$info['date'].'"></div></body></html>';
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" /><title>'.$info['date'].'</title><link rel="stylesheet" type="text/css" href="display.css" /></head><body><div id="wrapper"><img class="out" src="'.$info['url'].'" onclick="var c=body.className,r;if(c==\'out\'){r=\'in\'}else{r=\'out\'}body.className=r;" alt="'.$info['date'].'"></div></body></html>';
 
 	if($isBrowser == 0) {
 		header('Location: '.$url);
