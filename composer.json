@@ -1,5 +1,6 @@
 {
     "require": {
-        "ext-exif":"*"
+        "ext-exif":"*",
+        "mysql":"*"
     }
 }
