@@ -1,18 +1,19 @@
 <?php
-    $id = array('S3' => array('access' => 'your AWS access key here',
-                              'secret' => 'your AWS secret key here',
-                              'bucket' => 'the S3 bucket you want your images to be saved to'
-                        ),
+  $url = parse_url(getenv("JAWSDB_URL"));
 
-                'key' => 'a random alphanumeric string here',
+  $id = array('S3' => array('access' => getenv("AWS_ACCESS_KEY"),
+                            'secret' => getenv("AWS_SECRET_KEY"),
+                            'bucket' => getenv("AWS_BUCKET")),
 
-                'DB' => array(
-                    'db' => 'database here',
-                    'host' => 'database host here',
-                    'user' => 'database username here',
-                    'pass' => 'database password here'
-                 ),
+              'key' => '831IbRe6idCTENXNvJcm',
 
-                'base' => 'the full URL of the root diectory with a trailing slash'
-            );
+              'DB' => array(
+                'db' => substr($url["path"], 1),
+                'host' => $url["host"],
+                'user' => $url["user"],
+                'pass' => $url["pass"]
+               ),
+
+              'base' => 'http://hondo-mirror.herokuapp.com/'
+          );
 ?>
