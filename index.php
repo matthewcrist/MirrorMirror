@@ -193,7 +193,9 @@ function imageRetrieve($short, $dbinfo, $isBrowser) {
 }
 
 function checkBrowser() {
-	$a = apache_request_headers();
+	$a = http_get_request_headers();
+	var_dump($a);
+
 	if(strpos($a['Accept'],"text/html") === false) {
 		return 0;
 	}else{
