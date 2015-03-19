@@ -6,22 +6,22 @@ if($_GET['key'] && $_GET['key'] == $id['key']) {
 }elseif(isset($_GET['short'])) {
 	get($_GET['short'], $id['DB']);
 }else {
-	exit("Nothing requested. Internal-use error code: 9."); #e9
+	exit("Hello"); #e9
 }
 
-if(!function_exists('getallheaders')) { 
-    function getallheaders() 
-    { 
-           $headers = ''; 
-       foreach ($_SERVER as $name => $value) 
-       { 
-           if (substr($name, 0, 5) == 'HTTP_') 
-           { 
-               $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value; 
-           } 
-       } 
-       return $headers; 
-    } 
+if(!function_exists('getallheaders')) {
+    function getallheaders()
+    {
+           $headers = '';
+       foreach ($_SERVER as $name => $value)
+       {
+           if (substr($name, 0, 5) == 'HTTP_')
+           {
+               $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+           }
+       }
+       return $headers;
+    }
 }
 
 function up($id, $dbinfo, $baseURL) {
@@ -46,7 +46,7 @@ function sendToS3($id) {
 	//AWS access info
 	if (!defined('awsAccessKey')) define('awsAccessKey', $id['access']);
 	if (!defined('awsSecretKey')) define('awsSecretKey', $id['secret']);
-	
+
 	//instantiate the class
 	$s3 = new S3(awsAccessKey, awsSecretKey);
 
@@ -60,8 +60,8 @@ function sendToS3($id) {
 
 	if (isset($mimetype)) {
 	    $allowedmimes = array("video/quicktime", "image/png", "image/jpeg", "image/gif", "image/bmp");
-	    if(in_array($mimetype, $allowedmimes)) { 
-			
+	    if(in_array($mimetype, $allowedmimes)) {
+
 			$now = time();
 			$dotwhat = ".png";
 			$isMov = 0;
@@ -71,7 +71,7 @@ function sendToS3($id) {
 			}
 			$uploadname = $now.$dotwhat;
 
-			
+
 			if ($s3->putObjectFile($localfile, $id['bucket'], $uploadname, S3::ACL_PUBLIC_READ)) {
 				return array('url' => "https://s3.amazonaws.com/".$id['bucket']."/".$uploadname,
 					'isMov' => $isMov);
@@ -168,7 +168,7 @@ function imageRetrieve($short, $dbinfo, $isBrowser) {
 	if($rownum == 1) {
 		$assoc = mysql_fetch_assoc($search);
 		$id = $assoc['id'];
-		
+
 		if($isBrowser == 0) {
 			$cviews = $assoc['cviews'];
 			$cviews++;
@@ -204,7 +204,7 @@ function checkBrowser() {
 function displayImage($short, $dbinfo) {
 	$isBrowser = checkBrowser();
 	$info = imageRetrieve($short, $dbinfo, $isBrowser);
-	
+
 	$html = '<!DOCTYPE html>
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" /><title>'.$info['date'].'</title><link rel="stylesheet" type="text/css" href="display.css" /></head><body><div id="wrapper"><img class="out" src="'.$info['url'].'" onclick="var c=body.className,r;if(c==\'out\'){r=\'in\'}else{r=\'out\'}body.className=r;" alt="'.$info['date'].'"></div></body></html>';
 
