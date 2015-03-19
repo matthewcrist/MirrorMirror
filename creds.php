@@ -14,6 +14,6 @@
                 'pass' => $url["pass"]
                ),
 
-              'base' => 'http://hondo-mirror.herokuapp.com/'
+              'base' => 'http://hondo.media/'
           );
 ?>
