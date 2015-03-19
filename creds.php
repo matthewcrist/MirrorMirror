@@ -5,7 +5,7 @@
                             'secret' => getenv("AWS_SECRET_KEY"),
                             'bucket' => getenv("AWS_BUCKET")),
 
-              'key' => '831IbRe',
+              'key' => getenv("KEY"),
 
               'DB' => array(
                 'db' => substr($url["path"], 1),
